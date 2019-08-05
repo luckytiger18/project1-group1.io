@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mom & Me</title>
+</head>
+
+<body>
+
+    <form>
+
+        <input type="text" id="searchLocation" placeholder="Enter Location">
+    </form>
+
+    <button type="submit" id="submitButton">Submit</button>
+    <div></div>
+    <p></p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+    // map api
+        $("#submitButton").on("click", function () {
+            event.preventDefault();
+            var address = $("#searchLocation").val();
+            address = address.replace(/ /g, '%20');
+            var map = "https://api.mapbox.com/geocoding/v5/mapbox.places/playgrounds " + address + ".json?access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ"
+            // var safty = https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=EXZo2ybfi9amYpepIOggcUyzblMHeIpfh1QhMc80&location="  
+
+            $.ajax({
+                url: map,
+                method: "GET"
+            }).then(function (response) {
+               
+console.log(response)
+                // Iterate over the response feature
+                console.log(response.features.length)
+                for (var i = 0; i < response.features.length; i++) {
+                    // Check if place is "playground"
+                    
+                    var geocoords = response.features[i].place_name;
+                    $("p").append(geocoords + "<br>");
+                }
+
+            })
+        })
+
+    </script>
+
+</body>
+
+</html>
