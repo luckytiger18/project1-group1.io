@@ -7,19 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mom & Me</title>
     <link rel="stylesheet" href="./assets/css/style.css">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body>
+    <div id="search">
+        <form>
+            <input type="text" id="searchLocation" placeholder="Enter Location">
+        </form>
+        <button type="submit" id="submitButton">Submit</button>
+    </div>
 
-    <form>
-
-        <input type="text" id="searchLocation" placeholder="Enter Location">
-    </form>
-
-    <button type="submit" id="submitButton">Submit</button>
-    <div></div>
     <p id="places"></p>
     <p id="temperature"></p>
+    <div id="map"></div>
 
     <!-- jQuery and JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
