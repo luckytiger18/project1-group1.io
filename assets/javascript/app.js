@@ -28,7 +28,7 @@ function queryWeatherApi(address) {
         $("#temperature").append("Temperature: " + response.main.temp)
     })
 }
-
+// submit button
 $("#submitButton").on("click", function () {
     event.preventDefault();
     var address = $("#searchLocation").val();
