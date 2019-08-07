@@ -1,20 +1,29 @@
-//  TODO: Check if place is "playground"
-
-// map api
+//  TODO: Check if place is "playground" based on catergory
 
 // var safty = https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=EXZo2ybfi9amYpepIOggcUyzblMHeIpfh1QhMc80&location="  
 
+// tracking location
+
 function queryMapApi(address) {
+
     var map = "https://api.mapbox.com/geocoding/v5/mapbox.places/playgrounds " + address + ".json?access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ"
     $.ajax({
         url: map,
         method: "GET"
     }).then(function (response) {
-        // console.log(response)
+        console.log(response)
         // Iterate over the response feature
+
         for (var i = 0; i < response.features.length; i++) {
-            var geocoords = response.features[i].place_name;
-            $("#places").append("Places: " + geocoords + "<br>");
+            // var geocoords = response.features[i].place_name;
+            var geocoords = response.features[i].context[i].text;
+            var playgrounds = response.features[i].place_name;
+            var category = response.features[i].properties.category;
+            if (category == "playground, leisure") {
+                $("#places").append("<button>" + playgrounds + "<br>");
+            }
+            // console.log(geocoords)
+
         }
     })
 }
@@ -25,10 +34,19 @@ function queryWeatherApi(address) {
         url: weather,
         method: "GET"
     }).then(function (response) {
-        $("#temperature").append("Temperature: " + response.main.temp)
+        var temp = response.main.temp;
+        var tempNew = parseInt(1.8 * (temp - 273) + 32);
+        var wind = response.wind.speed;
+        var description = response.weather[0].main;
+        $("#weather").append("Temperature: " + tempNew + "<br>" + "Wind: " + wind + "MPH" + "<br>" + "Description: " + description)
+        // console.log(response);
     })
 }
-// submit button
+
+function reset() {
+
+}
+// execution 
 $("#submitButton").on("click", function () {
     event.preventDefault();
     var address = $("#searchLocation").val();
@@ -36,3 +54,17 @@ $("#submitButton").on("click", function () {
     queryMapApi(address);
     queryWeatherApi(address);
 })
+// mapboxgl.accessToken = 'pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ';
+// var map = new mapboxgl.Map({
+//     container: 'map', // container id
+//     style: 'mapbox://styles/mapbox/streets-v11',
+//     center: [-96, 37.8], // starting position
+//     zoom: 3 // starting zoom
+// });
+// // Add geolocate control to the map.
+// map.addControl(new mapboxgl.GeolocateControl({
+//     positionOptions: {
+//         enableHighAccuracy: true
+//     },
+//     trackUserLocation: true
+// }));
