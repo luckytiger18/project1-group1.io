@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-//  TODO: Check if place is "playground" based on catergory
-=======
 //  TODO: create a reset function to clear out the list of playgrounds if the user input a new zipcode (line 94)
 
 // var safety = https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=EXZo2ybfi9amYpepIOggcUyzblMHeIpfh1QhMc80&location="  
->>>>>>> master
 
 // tracking location
 
@@ -26,9 +22,6 @@ function queryMapApi(address) {
             var playgrounds = response.features[i].place_name;
             var category = response.features[i].properties.category;
             if (category == "playground, leisure") {
-<<<<<<< HEAD
-                $("#places").append("<button>" + playgrounds + "<br>");
-=======
 
                 // var button = $("<button>").attr("id", "jhfhgfgh").attr("gfhg","hgfhgfgh")
                 var button = $("<button>").attr({
@@ -40,7 +33,6 @@ function queryMapApi(address) {
 
 
                 $("#places").append(button);
->>>>>>> master
             }
             // console.log(geocoords)
 
