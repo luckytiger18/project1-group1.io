@@ -1,3 +1,4 @@
+
 body { 
     margin:0; 
     padding:0; }
@@ -20,4 +21,8 @@ p {
     float: right;
     margin-top: 100px;
     margin-left: 100px;
+}
+.location{
+	width:300px;
+	height: 60px;
 }
