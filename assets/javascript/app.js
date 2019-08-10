@@ -1,6 +1,6 @@
-//  TODO: Check if place is "playground" based on catergory
+//  TODO: create a reset function to clear out the list of playgrounds if the user input a new zipcode (line 94)
 
-// var safty = https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=EXZo2ybfi9amYpepIOggcUyzblMHeIpfh1QhMc80&location="  
+// var safety = https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=EXZo2ybfi9amYpepIOggcUyzblMHeIpfh1QhMc80&location="  
 
 // tracking location
 
@@ -43,7 +43,6 @@ $(document).on("click", ".location", function () {
     var lon = $(this).attr("data-lon");
     map.setCenter({ lat: lat, lon: lon }); //  map.setCenter({lat, lon}) (shortcuts: if it is the same name, you do not need to repeat it.)
 
-
     map.addLayer({
         "id": $(this).text(),
         "type": "symbol",
@@ -72,9 +71,6 @@ $(document).on("click", ".location", function () {
             "text-anchor": "top"
         }
     });
-
-
-
 })
 
 
@@ -95,8 +91,10 @@ function queryWeatherApi(address) {
 }
 
 function reset() {
-
+    $("#places").empty();
+    $("#weather").empty();
 }
+
 // execution 
 $("#submitButton").on("click", function () {
     event.preventDefault();
@@ -104,15 +102,10 @@ $("#submitButton").on("click", function () {
     address = address.replace(/ /g, '%20');
     queryMapApi(address);
     queryWeatherApi(address);
+    reset();
 })
-// mapboxgl.accessToken = 'pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ';
-// var map = new mapboxgl.Map({
-//     container: 'map',
-//     style: 'mapbox://styles/mapbox/streets-v9'
-// });
-
 navigator.geolocation.getCurrentPosition(function (position) {
-    console.log(position.coords.latitude, position.coords.longitude);
+    // console.log(position.coords.latitude, position.coords.longitude);
     map.setCenter({ lat: position.coords.latitude, lon: position.coords.longitude })
 });
 
@@ -121,35 +114,9 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     center: [-79.4512, 43.6568],
-    zoom: 16
+    zoom: 14
 });
 
-// var geocoder = new MapboxGeocoder({
-//     accessToken: mapboxgl.accessToken,
-//     marker: {
-//         color: 'orange'
-//     },
-//     mapboxgl: mapboxgl
-// });
-
-// map.addControl(geocoder);
 
 
 
-
-
-
-// mapboxgl.accessToken = 'pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ';
-// var map = new mapboxgl.Map({
-//     container: 'map', // container id
-//     style: 'mapbox://styles/mapbox/streets-v11',
-//     center: [-96, 37.8], // starting position
-//     zoom: 3 // starting zoom
-// });
-// // Add geolocate control to the map.
-// map.addControl(new mapboxgl.GeolocateControl({
-//     positionOptions: {
-//         enableHighAccuracy: true
-//     },
-//     trackUserLocation: true
-// }));
