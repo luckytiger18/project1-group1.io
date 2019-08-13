@@ -10,9 +10,9 @@ function queryMapApi(address) {
     $.ajax({
         url: map,
         method: "GET"
-    }).then(function (response) {
+    }).then(function(response) {
         console.log(response)
-        // Iterate over the response feature
+            // Iterate over the response feature
 
         for (var i = 0; i < response.features.length; i++) {
             // var geocoords = response.features[i].place_name;
@@ -38,7 +38,7 @@ function queryMapApi(address) {
     })
 }
 
-$(document).on("click", ".location", function () {
+$(document).on("click", ".location", function() {
     var lat = $(this).attr("data-lat");
     var lon = $(this).attr("data-lon");
     map.setCenter({ lat: lat, lon: lon }); //  map.setCenter({lat, lon}) (shortcuts: if it is the same name, you do not need to repeat it.)
@@ -80,13 +80,13 @@ function queryWeatherApi(address) {
     $.ajax({
         url: weather,
         method: "GET"
-    }).then(function (response) {
+    }).then(function(response) {
         var temp = response.main.temp;
         var tempNew = parseInt(1.8 * (temp - 273) + 32);
         var wind = response.wind.speed;
         var description = response.weather[0].main;
         $("#weather").append("Temperature: " + tempNew + "</br>" + "Wind: " + wind + "MPH" + "</br>" + "Description: " + description)
-        // console.log(response);
+            // console.log(response);
     })
 }
 
@@ -96,7 +96,7 @@ function reset() {
 }
 
 // execution 
-$("#submitButton").on("click", function () {
+$("#submitButton").on("click", function() {
     event.preventDefault();
     var address = $("#searchLocation").val();
     address = address.replace(/ /g, '%20');
@@ -104,7 +104,7 @@ $("#submitButton").on("click", function () {
     queryWeatherApi(address);
     reset();
 })
-navigator.geolocation.getCurrentPosition(function (position) {
+navigator.geolocation.getCurrentPosition(function(position) {
     // console.log(position.coords.latitude, position.coords.longitude);
     map.setCenter({ lat: position.coords.latitude, lon: position.coords.longitude })
 });
@@ -116,7 +116,3 @@ var map = new mapboxgl.Map({
     center: [-79.4512, 43.6568],
     zoom: 14
 });
-
-
-
-
