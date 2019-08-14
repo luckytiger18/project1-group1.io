@@ -3,6 +3,22 @@
 // var safety = https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=EXZo2ybfi9amYpepIOggcUyzblMHeIpfh1QhMc80&location="  
 
 // tracking location
+var firebaseConfig = {
+    apiKey: "AIzaSyC3_ITSAINLA2_33Y4PF6Yv4BejAt_N6BQ",
+authDomain: "project1group1-71a9c.firebaseapp.com",
+databaseURL: "https://project1group1-71a9c.firebaseio.com",
+projectId: "project1group1-71a9c",
+storageBucket: "",
+messagingSenderId: "490262466856",
+appId: "1:490262466856:web:cc6c10ed045f0f72"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+var database = firebase.database();         
+
+
+
 
 function queryMapApi(address) {
 
@@ -35,6 +51,11 @@ function queryMapApi(address) {
             // console.log(geocoords)
 
         }
+
+        database.ref().set({
+            zipcode: address,
+            location: 'san francisco'
+          });
     })
 }
 
