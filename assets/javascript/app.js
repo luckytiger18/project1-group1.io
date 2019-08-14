@@ -30,13 +30,14 @@ function queryMapApi(address) {
         console.log(response)
             // Iterate over the response feature
 
+            var playgroundsArray =[]
         for (var i = 0; i < response.features.length; i++) {
             // var geocoords = response.features[i].place_name;
             var geocoords = response.features[i].context[i].text;
             var playgrounds = response.features[i].place_name;
             var category = response.features[i].properties.category;
             if (category == "playground, leisure") {
-
+                playgroundsArray.push(playgrounds)
                 // var button = $("<button>").attr("id", "jhfhgfgh").attr("gfhg","hgfhgfgh")
                 var button = $("<button>").attr({
                     "data-lat": response.features[i].center[1],
@@ -51,10 +52,12 @@ function queryMapApi(address) {
             // console.log(geocoords)
 
         }
+console.log(playgroundsArray)
 
         database.ref().set({
             zipcode: address,
-            location: 'san francisco'
+            playgrounds: playgroundsArray
+          
           });
     })
 }
