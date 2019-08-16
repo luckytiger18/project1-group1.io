@@ -1,8 +1,4 @@
-//  TODO: create a reset function to clear out the list of playgrounds if the user input a new zipcode (line 94)
-
-// var safety = https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key=EXZo2ybfi9amYpepIOggcUyzblMHeIpfh1QhMc80&location="  
-
-// tracking location
+// firebase api 
 var firebaseConfig = {
     apiKey: "AIzaSyC3_ITSAINLA2_33Y4PF6Yv4BejAt_N6BQ",
     authDomain: "project1group1-71a9c.firebaseapp.com",
@@ -17,50 +13,38 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
-
+// mapbox api for bbox (boundary box)
 function getGeoCode(address) {
     var map = "https://api.mapbox.com/geocoding/v5/mapbox.places/ " + address + ".json?country=us&access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ"
     $.ajax({
         url: map,
         method: "GET"
-    }).then(function(response) {
-        console.log(response)
+    }).then(function (response) {
         var bbox = response.features[0].bbox;
-    
-
-
         queryMapApi(address, bbox)
     })
 }
-
+// mapbox api 
 function queryMapApi(address, bbox) {
 
     var map = `https://api.mapbox.com/geocoding/v5/mapbox.places/playgrounds ${address}.json?country=us&bbox=${bbox}limit=10&access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ`
-    console.log(map)
     $.ajax({
         url: map,
         method: "GET"
-    }).then(function(response) {
-        console.log(response)
-            // Iterate over the response feature
-        console.log(map)
+    }).then(function (response) {
         var a = [];
 
-        var playgroundsArray = []
+        var playgroundsArray = [];
         for (var i = 0; i < response.features.length; i++) {
             var temp = response.features[i].place_name;
             a = temp.split(",");
-            console.log("temp: " + a);
-            console.log(a.indexOf(" United States"));
 
             if (a.indexOf(" United States") != -1) {
-                // var geocoords = response.features[i].place_name;
-                // var geocoords = response.features[i].context[i].text;
                 var playgrounds = response.features[i].place_name;
                 var category = response.features[i].properties.category;
+
                 if (category == "playground, leisure") {
                     playgroundsArray.push(playgrounds)
-                        // var button = $("<button>").attr("id", "jhfhgfgh").attr("gfhg","hgfhgfgh")
                     var button = $("<button>").attr({
                         "data-lat": response.features[i].center[1],
                         "data-lon": response.features[i].center[0],
@@ -68,16 +52,10 @@ function queryMapApi(address, bbox) {
                     button.text(playgrounds)
                     button.addClass("location waves-effect waves-light btn")
 
-
-
                     $("#places").append(button);
                 }
-                // console.log(geocoords)
             }
-
         }
-        console.log(playgroundsArray)
-
         database.ref().set({
             zipcode: address,
             playgrounds: playgroundsArray
@@ -86,7 +64,7 @@ function queryMapApi(address, bbox) {
     })
 }
 
-$(document).on("click", ".location", function() {
+$(document).on("click", ".location", function () {
     var lat = $(this).attr("data-lat");
     var lon = $(this).attr("data-lon");
     map.setCenter({ lat: lat, lon: lon }); //  map.setCenter({lat, lon}) (shortcuts: if it is the same name, you do not need to repeat it.)
@@ -118,13 +96,8 @@ $(document).on("click", ".location", function() {
             "text-offset": [0, 0.6],
             "text-anchor": "top"
         }
-
-        
     });
-
-   
 })
-
 
 // Weather API
 function queryWeatherApi(address) {
@@ -132,25 +105,21 @@ function queryWeatherApi(address) {
     $.ajax({
         url: weather,
         method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
         var temp = response.main.temp;
         var tempNew = parseInt(1.8 * (temp - 273) + 32);
         var wind = response.wind.speed;
         var description = response.weather[0].main;
 
-        $("#weather").append("Temperature: " + tempNew +'&#8457' + "</br>" + "Wind: " + wind + "MPH" + "</br>" + "Description: " + description)
-        // console.log(response);
-
+        $("#weather").append("Temperature: " + tempNew + '&#8457' + "</br>" + "Wind: " + wind + "MPH" + "</br>" + "Description: " + description)
     })
 }
-
 function reset() {
     $("#places").empty();
     $("#weather").empty();
 }
-
-// execution 
-$("#submitButton").on("click", function() {
+// button execution 
+$("#submitButton").on("click", function () {
     event.preventDefault();
     var address = $("#searchLocation").val();
     address = address.replace(/ /g, '%20');
@@ -161,7 +130,7 @@ $("#submitButton").on("click", function() {
     $("#weather").addClass("container card")
 
 })
-navigator.geolocation.getCurrentPosition(function(position) {
+navigator.geolocation.getCurrentPosition(function (position) {
     // console.log(position.coords.latitude, position.coords.longitude);
     map.setCenter({ lat: position.coords.latitude, lon: position.coords.longitude })
 
@@ -171,14 +140,14 @@ navigator.geolocation.getCurrentPosition(function(position) {
         height: size,
         data: new Uint8Array(size * size * 4),
 
-        onAdd: function() {
+        onAdd: function () {
             var canvas = document.createElement('canvas');
             canvas.width = this.width;
             canvas.height = this.height;
             this.context = canvas.getContext('2d');
         },
 
-        render: function() {
+        render: function () {
             var duration = 1000;
             var t = (performance.now() % duration) / duration;
 
@@ -214,7 +183,7 @@ navigator.geolocation.getCurrentPosition(function(position) {
     };
 
     map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
-
+    // pulsing of the dot
     map.addLayer({
         "id": "points",
         "type": "symbol",
@@ -236,7 +205,6 @@ navigator.geolocation.getCurrentPosition(function(position) {
         }
     });
 });
-
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ';
 var map = new mapboxgl.Map({
