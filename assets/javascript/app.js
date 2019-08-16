@@ -26,41 +26,40 @@ function queryMapApi(address) {
     $.ajax({
         url: map,
         method: "GET"
-    }).then(function (response) {
+    }).then(function(response) {
         console.log(response)
-        // Iterate over the response feature
+            // Iterate over the response feature
         console.log(map)
-        var a=[];
+        var a = [];
 
         var playgroundsArray = []
         for (var i = 0; i < response.features.length; i++) {
             var temp = response.features[i].place_name;
             a = temp.split(",");
-            console.log("temp: "+a);
+            console.log("temp: " + a);
             console.log(a.indexOf(" United States"));
 
-            if(a.indexOf(" United States")!= -1)
-            {
-            // var geocoords = response.features[i].place_name;
-            var geocoords = response.features[i].context[i].text;
-            var playgrounds = response.features[i].place_name;
-            var category = response.features[i].properties.category;
-            if (category == "playground, leisure") {
-                playgroundsArray.push(playgrounds)
-                // var button = $("<button>").attr("id", "jhfhgfgh").attr("gfhg","hgfhgfgh")
-                var button = $("<button>").attr({
-                    "data-lat": response.features[i].center[1],
-                    "data-lon": response.features[i].center[0],
-                })
-                button.text(playgrounds)
-                button.addClass("location waves-effect waves-light btn")
+            if (a.indexOf(" United States") != -1) {
+                // var geocoords = response.features[i].place_name;
+                var geocoords = response.features[i].context[i].text;
+                var playgrounds = response.features[i].place_name;
+                var category = response.features[i].properties.category;
+                if (category == "playground, leisure") {
+                    playgroundsArray.push(playgrounds)
+                        // var button = $("<button>").attr("id", "jhfhgfgh").attr("gfhg","hgfhgfgh")
+                    var button = $("<button>").attr({
+                        "data-lat": response.features[i].center[1],
+                        "data-lon": response.features[i].center[0],
+                    })
+                    button.text(playgrounds)
+                    button.addClass("location waves-effect waves-light btn")
 
 
 
-                $("#places").append(button);
+                    $("#places").append(button);
+                }
+                // console.log(geocoords)
             }
-            // console.log(geocoords)
-        }
 
         }
         console.log(playgroundsArray)
@@ -73,7 +72,7 @@ function queryMapApi(address) {
     })
 }
 
-$(document).on("click", ".location", function () {
+$(document).on("click", ".location", function() {
     var lat = $(this).attr("data-lat");
     var lon = $(this).attr("data-lon");
     map.setCenter({ lat: lat, lon: lon }); //  map.setCenter({lat, lon}) (shortcuts: if it is the same name, you do not need to repeat it.)
@@ -119,13 +118,15 @@ function queryWeatherApi(address) {
     $.ajax({
         url: weather,
         method: "GET"
-    }).then(function (response) {
+    }).then(function(response) {
         var temp = response.main.temp;
         var tempNew = parseInt(1.8 * (temp - 273) + 32);
         var wind = response.wind.speed;
         var description = response.weather[0].main;
+
         $("#weather").append("Temperature: " + tempNew +'&#8457' + "</br>" + "Wind: " + wind + "MPH" + "</br>" + "Description: " + description)
         // console.log(response);
+
     })
 }
 
@@ -135,16 +136,18 @@ function reset() {
 }
 
 // execution 
-$("#submitButton").on("click", function () {
+$("#submitButton").on("click", function() {
     event.preventDefault();
     var address = $("#searchLocation").val();
     address = address.replace(/ /g, '%20');
     queryMapApi(address);
     queryWeatherApi(address);
     reset();
-    
+
+    $("#weather").addClass("container card")
+
 })
-navigator.geolocation.getCurrentPosition(function (position) {
+navigator.geolocation.getCurrentPosition(function(position) {
     // console.log(position.coords.latitude, position.coords.longitude);
     map.setCenter({ lat: position.coords.latitude, lon: position.coords.longitude })
 
