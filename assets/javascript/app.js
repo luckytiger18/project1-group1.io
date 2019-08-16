@@ -21,7 +21,10 @@ function getGeoCode(address) {
         method: "GET"
     }).then(function (response) {
         var bbox = response.features[0].bbox;
+        bbox[2]= bbox[0] + 0.05296465868;
+        bbox[3] = bbox[1] +0.08435483832;
         queryMapApi(address, bbox)
+        console.log(bbox)
     })
 }
 // mapbox api 
