@@ -27,7 +27,8 @@ function queryMapApi(address) {
                     "data-lon": response.features[i].center[0]
                 })
                 button.text(playgrounds)
-                button.addClass("location")
+                button.addClass("location waves-effect waves-light btn")
+
 
 
                 $("#places").append(button);
@@ -114,14 +115,14 @@ navigator.geolocation.getCurrentPosition(function(position) {
         height: size,
         data: new Uint8Array(size * size * 4),
 
-        onAdd: function () {
+        onAdd: function() {
             var canvas = document.createElement('canvas');
             canvas.width = this.width;
             canvas.height = this.height;
             this.context = canvas.getContext('2d');
         },
 
-        render: function () {
+        render: function() {
             var duration = 1000;
             var t = (performance.now() % duration) / duration;
 
