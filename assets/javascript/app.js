@@ -18,11 +18,25 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 
+function getGeoCode(address) {
+    var map = "https://api.mapbox.com/geocoding/v5/mapbox.places/ " + address + ".json?country=us&access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ"
+    $.ajax({
+        url: map,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response)
+        var bbox = response.features[0].bbox;
+    
 
 
-function queryMapApi(address) {
+        queryMapApi(address, bbox)
+    })
+}
 
-    var map = "https://api.mapbox.com/geocoding/v5/mapbox.places/playgrounds " + address + ".json?proximity=&access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ"
+function queryMapApi(address, bbox) {
+
+    var map = `https://api.mapbox.com/geocoding/v5/mapbox.places/playgrounds ${address}.json?country=us&bbox=${bbox}limit=10&access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ`
+    console.log(map)
     $.ajax({
         url: map,
         method: "GET"
@@ -41,7 +55,7 @@ function queryMapApi(address) {
 
             if (a.indexOf(" United States") != -1) {
                 // var geocoords = response.features[i].place_name;
-                var geocoords = response.features[i].context[i].text;
+                // var geocoords = response.features[i].context[i].text;
                 var playgrounds = response.features[i].place_name;
                 var category = response.features[i].properties.category;
                 if (category == "playground, leisure") {
@@ -140,7 +154,7 @@ $("#submitButton").on("click", function() {
     event.preventDefault();
     var address = $("#searchLocation").val();
     address = address.replace(/ /g, '%20');
-    queryMapApi(address);
+    getGeoCode(address);
     queryWeatherApi(address);
     reset();
 
