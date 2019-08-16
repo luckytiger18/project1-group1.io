@@ -5,33 +5,42 @@
 // tracking location
 var firebaseConfig = {
     apiKey: "AIzaSyC3_ITSAINLA2_33Y4PF6Yv4BejAt_N6BQ",
-authDomain: "project1group1-71a9c.firebaseapp.com",
-databaseURL: "https://project1group1-71a9c.firebaseio.com",
-projectId: "project1group1-71a9c",
-storageBucket: "",
-messagingSenderId: "490262466856",
-appId: "1:490262466856:web:cc6c10ed045f0f72"
+    authDomain: "project1group1-71a9c.firebaseapp.com",
+    databaseURL: "https://project1group1-71a9c.firebaseio.com",
+    projectId: "project1group1-71a9c",
+    storageBucket: "",
+    messagingSenderId: "490262466856",
+    appId: "1:490262466856:web:cc6c10ed045f0f72"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-var database = firebase.database();         
+var database = firebase.database();
 
 
 
 
 function queryMapApi(address) {
 
-    var map = "https://api.mapbox.com/geocoding/v5/mapbox.places/playgrounds " + address + ".json?access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ"
+    var map = "https://api.mapbox.com/geocoding/v5/mapbox.places/playgrounds " + address + ".json?proximity=&access_token=pk.eyJ1IjoiYWtrdXJuaWNraSIsImEiOiJjanl2dGlhZ2gwZXdpM21yb2pzeTN0MXU1In0.fw1d3cJU5L4lFhDYAzy3fQ"
     $.ajax({
         url: map,
         method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
         console.log(response)
-            // Iterate over the response feature
+        // Iterate over the response feature
+        console.log(map)
+        var a=[];
 
-            var playgroundsArray =[]
+        var playgroundsArray = []
         for (var i = 0; i < response.features.length; i++) {
+            var temp = response.features[i].place_name;
+            a = temp.split(",");
+            console.log("temp: "+a);
+            console.log(a.indexOf(" United States"));
+
+            if(a.indexOf(" United States")!= -1)
+            {
             // var geocoords = response.features[i].place_name;
             var geocoords = response.features[i].context[i].text;
             var playgrounds = response.features[i].place_name;
@@ -41,7 +50,7 @@ function queryMapApi(address) {
                 // var button = $("<button>").attr("id", "jhfhgfgh").attr("gfhg","hgfhgfgh")
                 var button = $("<button>").attr({
                     "data-lat": response.features[i].center[1],
-                    "data-lon": response.features[i].center[0]
+                    "data-lon": response.features[i].center[0],
                 })
                 button.text(playgrounds)
                 button.addClass("location")
@@ -50,19 +59,20 @@ function queryMapApi(address) {
                 $("#places").append(button);
             }
             // console.log(geocoords)
+        }
 
         }
-console.log(playgroundsArray)
+        console.log(playgroundsArray)
 
         database.ref().set({
             zipcode: address,
             playgrounds: playgroundsArray
-          
-          });
+
+        });
     })
 }
 
-$(document).on("click", ".location", function() {
+$(document).on("click", ".location", function () {
     var lat = $(this).attr("data-lat");
     var lon = $(this).attr("data-lon");
     map.setCenter({ lat: lat, lon: lon }); //  map.setCenter({lat, lon}) (shortcuts: if it is the same name, you do not need to repeat it.)
@@ -104,13 +114,13 @@ function queryWeatherApi(address) {
     $.ajax({
         url: weather,
         method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
         var temp = response.main.temp;
         var tempNew = parseInt(1.8 * (temp - 273) + 32);
         var wind = response.wind.speed;
         var description = response.weather[0].main;
         $("#weather").append("Temperature: " + tempNew + "</br>" + "Wind: " + wind + "MPH" + "</br>" + "Description: " + description)
-            // console.log(response);
+        // console.log(response);
     })
 }
 
@@ -120,7 +130,7 @@ function reset() {
 }
 
 // execution 
-$("#submitButton").on("click", function() {
+$("#submitButton").on("click", function () {
     event.preventDefault();
     var address = $("#searchLocation").val();
     address = address.replace(/ /g, '%20');
@@ -128,7 +138,7 @@ $("#submitButton").on("click", function() {
     queryWeatherApi(address);
     reset();
 })
-navigator.geolocation.getCurrentPosition(function(position) {
+navigator.geolocation.getCurrentPosition(function (position) {
     // console.log(position.coords.latitude, position.coords.longitude);
     map.setCenter({ lat: position.coords.latitude, lon: position.coords.longitude })
 
