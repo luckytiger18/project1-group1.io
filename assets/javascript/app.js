@@ -104,7 +104,11 @@ $(document).on("click", ".location", function() {
             "text-offset": [0, 0.6],
             "text-anchor": "top"
         }
+
+        
     });
+
+   
 })
 
 
@@ -119,8 +123,9 @@ function queryWeatherApi(address) {
         var tempNew = parseInt(1.8 * (temp - 273) + 32);
         var wind = response.wind.speed;
         var description = response.weather[0].main;
-        $("#weather").append("Temperature: " + tempNew + "</br>" + "Wind: " + wind + "MPH" + "</br>" + "Description: " + description)
-            // console.log(response);
+
+        $("#weather").append("Temperature: " + tempNew +'&#8457' + "</br>" + "Wind: " + wind + "MPH" + "</br>" + "Description: " + description)
+        // console.log(response);
 
     })
 }
@@ -138,7 +143,9 @@ $("#submitButton").on("click", function() {
     queryMapApi(address);
     queryWeatherApi(address);
     reset();
+
     $("#weather").addClass("container card")
+
 })
 navigator.geolocation.getCurrentPosition(function(position) {
     // console.log(position.coords.latitude, position.coords.longitude);
