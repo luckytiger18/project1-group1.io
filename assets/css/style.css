@@ -5,7 +5,7 @@
 }
 
 #search {
-    margin-top: 8%;
+    margin-top: 2%;
     margin-left: 5%;
     width: 25%;
 }
@@ -24,24 +24,30 @@
     width: 40%;
     float: left;
     padding: 0%;
-    margin: 5%;
+    margin-left: 92%;
+    margin-top: 46%;
+    color: white;
+    background-color: #cfcf50;
 }
 
 #map {
     position: relative;
-    float: left;
+    float: right;
+    margin-top: -162px;
+    margin-right: 50px;
 }
 
 #places {
     width: 40%;
-    position: relative;
-    margin-left: 5%;
+    position: absolute;
+    margin-left: 34%;
+    margin-top: -5%;
 }
 
 #container1 {
     display: flex;
     flex-direction: column;
-    float: right;
+    float: left;
     width: 40%;
     margin-right: -3%;
     margin-top: -5%;
@@ -49,4 +55,36 @@
 
 h1 {
     font-size: 25px;
+}
+
+.location.waves-effect.waves-light.btn {
+    line-height: initial;
+    line-height: 17px;
+    margin: 3px;
+}
+
+#searchTopic {
+    margin-top: 100px;
+}
+
+nav {
+    height: 100px;
+}
+
+nav .brand-logo {
+    position: absolute;
+    color: #fff;
+    display: inline-block;
+    font-size: 4.1rem;
+    padding: 14px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+#searchLocation {
+    width: 63%;
+    margin-top: -5%;
+}
+
+#submitButton {
+    background-color: #ee6e73;
 }
