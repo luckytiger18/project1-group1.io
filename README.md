@@ -1,8 +1,8 @@
-# [Playground] (https://luckytiger18.github.io/project1-group1.io/) 
+# Playground  
 
 ## Description
 
-This application is to help find parks at your current location. The user is to input a zip code in order to get five parks that is around you. 
+This web app (https://luckytiger18.github.io/project1-group1.io/) is to help find parks at your current location. The user is to input a zip code in order to get five parks that is around you. 
 
 ## Technologies
 
