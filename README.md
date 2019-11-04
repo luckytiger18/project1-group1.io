@@ -10,9 +10,9 @@ Front End | Back End
 ----------|----------
 HTML | MySQL
 CSS | Firebase
-Materalize | 
+Materalize | MapBox API
 JavaScript |
 JQuery |
-MapBox |
+
 
 
