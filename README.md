@@ -2,7 +2,7 @@
 
 ## Description
 
-This app is to help find parks in your current location. The user is to input a zip code in order to get five parks that is in your location. 
+This app is to help find parks at your current location. The user is to input a zip code in order to get five parks that is around you. 
 
 ## Technologies
 
@@ -13,6 +13,6 @@ CSS | Firebase
 Materalize | 
 JavaScript |
 JQuery |
-
+MapBox |
 
 
